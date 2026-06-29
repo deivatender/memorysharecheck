@@ -9,7 +9,7 @@ var rsa = RSA.Create(2048);
 var signingKey = new RsaSecurityKey(rsa);
 
 builder.Services.AddSingleton(signingKey);
-builder.Services.AddSingleton<UserService>();
+builder.Services.AddSingleton<AccountService>();
 builder.Services.AddSingleton<RefreshTokenService>();
 builder.Services.AddSingleton<TokenService>();
 

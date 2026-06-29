@@ -8,11 +8,11 @@ namespace MemoryShareCheck.Controllers;
 [Route("api/[controller]")]
 public class AuthController : ControllerBase
 {
-    private readonly UserService _userService;
+    private readonly AccountService _userService;
     private readonly TokenService _tokenService;
     private readonly RefreshTokenService _refreshTokenService;
 
-    public AuthController(UserService userService, TokenService tokenService, RefreshTokenService refreshTokenService)
+    public AuthController(AccountService userService, TokenService tokenService, RefreshTokenService refreshTokenService)
     {
         _userService = userService;
         _tokenService = tokenService;

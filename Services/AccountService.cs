@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 
 namespace MemoryShareCheck.Services;
 
-public class UserService
+public class AccountService
 {
     private readonly ConcurrentDictionary<string, User> _users = new(StringComparer.OrdinalIgnoreCase);
 
