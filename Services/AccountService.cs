@@ -22,13 +22,14 @@ public class AccountService
         return _users.Values.FirstOrDefault(u => u.Id == id);
     }
 
-    public (User? User, string? Error) Register(string username, string email, string password)
+    public (User? User, string? Error) Register(string username, string email, string password, string? displayName = null)
     {
         var user = new User
         {
             Username = username,
             Email = email,
-            PasswordHash = HashPassword(password)
+            PasswordHash = HashPassword(password),
+            DisplayName = displayName
         };
 
         if (!_users.TryAdd(username, user))
