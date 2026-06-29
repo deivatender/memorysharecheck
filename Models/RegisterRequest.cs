@@ -25,4 +25,16 @@ public class RegisterRequest
 
     [StringLength(500)]
     public string? Bio { get; set; }
+
+    public DateTime? DateOfBirth { get; set; }
+
+    [StringLength(500)]
+    public string? Address { get; set; }
+
+    [Url]
+    [StringLength(2048)]
+    public string? ProfilePictureUrl { get; set; }
+
+    [StringLength(20)]
+    public string? Gender { get; set; }
 }

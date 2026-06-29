@@ -22,7 +22,7 @@ public class AccountService
         return _users.Values.FirstOrDefault(u => u.Id == id);
     }
 
-    public (User? User, string? Error) Register(string username, string email, string password, string? displayName = null, string? phoneNumber = null, string? bio = null)
+    public (User? User, string? Error) Register(string username, string email, string password, string? displayName = null, string? phoneNumber = null, string? bio = null, DateTime? dateOfBirth = null, string? address = null, string? profilePictureUrl = null, string? gender = null)
     {
         var user = new User
         {
@@ -31,7 +31,11 @@ public class AccountService
             PasswordHash = HashPassword(password),
             DisplayName = displayName,
             PhoneNumber = phoneNumber,
-            Bio = bio
+            Bio = bio,
+            DateOfBirth = dateOfBirth,
+            Address = address,
+            ProfilePictureUrl = profilePictureUrl,
+            Gender = gender
         };
 
         if (!_users.TryAdd(username, user))
