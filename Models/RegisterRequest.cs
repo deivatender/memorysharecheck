@@ -49,4 +49,7 @@ public class RegisterRequest
 
     [StringLength(100)]
     public string? State { get; set; }
+
+    [StringLength(100)]
+    public string? Country { get; set; }
 }
