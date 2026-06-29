@@ -225,7 +225,43 @@ Revoke a refresh token (logout).
 
 ---
 
-### 5. GET /WeatherForecast
+### 5. GET /api/Auth/user-detail
+
+Retrieve profile details for the authenticated user.
+
+**Authentication:** Required (JWT Bearer)
+
+**Request Body:** None
+
+**Success Response (200 OK):**
+
+```json
+{
+  "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "username": "johndoe",
+  "email": "john@example.com",
+  "displayName": "John Doe",
+  "phoneNumber": "1234567890",
+  "bio": "Software developer",
+  "dateOfBirth": "1990-01-01T00:00:00",
+  "address": "123 Main St",
+  "profilePictureUrl": "https://example.com/pic.jpg",
+  "gender": "male",
+  "age": 36,
+  "name": "John",
+  "city": "Seattle",
+  "state": "WA",
+  "country": "USA"
+}
+```
+
+**Error Response (401 Unauthorized):** Returned when no valid token is provided.
+
+**Error Response (404 Not Found):** Returned when the authenticated user is not found.
+
+---
+
+### 6. GET /WeatherForecast
 
 Retrieve a 5-day weather forecast (sample protected endpoint).
 

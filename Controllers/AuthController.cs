@@ -1,6 +1,9 @@
 using MemoryShareCheck.Models;
 using MemoryShareCheck.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace MemoryShareCheck.Controllers;
 
@@ -61,5 +64,43 @@ public class AuthController : ControllerBase
     {
         _refreshTokenService.Revoke(request.RefreshToken);
         return Ok(new { message = "Token revoked." });
+    }
+
+    [Authorize]
+    [HttpGet("user-detail")]
+    public IActionResult UserDetail()
+    {
+        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value 
+            ?? User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value;
+
+        if (string.IsNullOrEmpty(userIdClaim) || !Guid.TryParse(userIdClaim, out var userId))
+        {
+            return Unauthorized(new { message = "Invalid or missing user ID claim." });
+        }
+
+        var user = _accountService.GetById(userId);
+        if (user is null)
+        {
+            return NotFound(new { message = "User not found." });
+        }
+
+        return Ok(new
+        {
+            user.Id,
+            user.Username,
+            user.Email,
+            user.DisplayName,
+            user.PhoneNumber,
+            user.Bio,
+            user.DateOfBirth,
+            user.Address,
+            user.ProfilePictureUrl,
+            user.Gender,
+            user.Age,
+            user.Name,
+            user.City,
+            user.State,
+            user.Country
+        });
     }
 }
