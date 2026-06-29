@@ -19,7 +19,7 @@ public class TokenService
         _refreshTokenService = refreshTokenService;
     }
 
-    public AuthResponse GenerateToken(User user)
+    public AuthResponse GenerateToken(User user, bool rememberMe = false)
     {
         var claims = new[]
         {
@@ -30,7 +30,9 @@ public class TokenService
         };
 
         var credentials = new SigningCredentials(_signingKey, SecurityAlgorithms.RsaSha256);
-        var expirationMinutes = _configuration.GetValue<int>("Jwt:ExpirationMinutes", 60);
+        var expirationMinutes = rememberMe
+            ? _configuration.GetValue<int>("Jwt:RememberMeExpirationMinutes", 10080)
+            : _configuration.GetValue<int>("Jwt:ExpirationMinutes", 60);
         var expiration = DateTime.UtcNow.AddMinutes(expirationMinutes);
 
         var token = new JwtSecurityToken(
@@ -40,7 +42,10 @@ public class TokenService
             expires: expiration,
             signingCredentials: credentials);
 
-        var refreshToken = _refreshTokenService.GenerateRefreshToken(user.Id);
+        var refreshTokenExpirationDays = rememberMe
+            ? _configuration.GetValue<int>("Jwt:RememberMeRefreshTokenExpirationDays", 30)
+            : (int?)null;
+        var refreshToken = _refreshTokenService.GenerateRefreshToken(user.Id, refreshTokenExpirationDays);
 
         return new AuthResponse
         {

@@ -14,9 +14,9 @@ public class RefreshTokenService
         _configuration = configuration;
     }
 
-    public RefreshToken GenerateRefreshToken(Guid userId)
+    public RefreshToken GenerateRefreshToken(Guid userId, int? expirationDaysOverride = null)
     {
-        var expirationDays = _configuration.GetValue<int>("Jwt:RefreshTokenExpirationDays", 7);
+        var expirationDays = expirationDaysOverride ?? _configuration.GetValue<int>("Jwt:RefreshTokenExpirationDays", 7);
         var tokenBytes = RandomNumberGenerator.GetBytes(64);
         var tokenString = Convert.ToBase64String(tokenBytes);
 

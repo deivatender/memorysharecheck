@@ -37,7 +37,7 @@ public class AuthController : ControllerBase
         if (user is null)
             return Unauthorized(new { message = "Invalid username or password." });
 
-        return Ok(_tokenService.GenerateToken(user));
+        return Ok(_tokenService.GenerateToken(user, request.RememberMe ?? false));
     }
 
     [HttpPost("refresh")]
