@@ -10,6 +10,7 @@ var signingKey = new RsaSecurityKey(rsa);
 
 builder.Services.AddSingleton(signingKey);
 builder.Services.AddSingleton<UserService>();
+builder.Services.AddSingleton<RefreshTokenService>();
 builder.Services.AddSingleton<TokenService>();
 
 builder.Services.AddAuthentication(options =>

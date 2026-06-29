@@ -10,11 +10,13 @@ public class TokenService
 {
     private readonly IConfiguration _configuration;
     private readonly RsaSecurityKey _signingKey;
+    private readonly RefreshTokenService _refreshTokenService;
 
-    public TokenService(IConfiguration configuration, RsaSecurityKey signingKey)
+    public TokenService(IConfiguration configuration, RsaSecurityKey signingKey, RefreshTokenService refreshTokenService)
     {
         _configuration = configuration;
         _signingKey = signingKey;
+        _refreshTokenService = refreshTokenService;
     }
 
     public AuthResponse GenerateToken(User user)
@@ -38,10 +40,14 @@ public class TokenService
             expires: expiration,
             signingCredentials: credentials);
 
+        var refreshToken = _refreshTokenService.GenerateRefreshToken(user.Id);
+
         return new AuthResponse
         {
             Token = new JwtSecurityTokenHandler().WriteToken(token),
             Expiration = expiration,
+            RefreshToken = refreshToken.Token,
+            RefreshTokenExpiration = refreshToken.ExpiresAt,
             Username = user.Username,
             Email = user.Email
         };

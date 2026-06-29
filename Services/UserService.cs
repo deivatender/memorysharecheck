@@ -17,6 +17,11 @@ public class UserService
         return VerifyPassword(password, user.PasswordHash) ? user : null;
     }
 
+    public User? GetById(Guid id)
+    {
+        return _users.Values.FirstOrDefault(u => u.Id == id);
+    }
+
     public (User? User, string? Error) Register(string username, string email, string password)
     {
         var user = new User

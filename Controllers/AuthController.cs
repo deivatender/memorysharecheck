@@ -10,11 +10,13 @@ public class AuthController : ControllerBase
 {
     private readonly UserService _userService;
     private readonly TokenService _tokenService;
+    private readonly RefreshTokenService _refreshTokenService;
 
-    public AuthController(UserService userService, TokenService tokenService)
+    public AuthController(UserService userService, TokenService tokenService, RefreshTokenService refreshTokenService)
     {
         _userService = userService;
         _tokenService = tokenService;
+        _refreshTokenService = refreshTokenService;
     }
 
     [HttpPost("register")]
@@ -36,5 +38,28 @@ public class AuthController : ControllerBase
             return Unauthorized(new { message = "Invalid username or password." });
 
         return Ok(_tokenService.GenerateToken(user));
+    }
+
+    [HttpPost("refresh")]
+    public IActionResult Refresh([FromBody] RefreshTokenRequest request)
+    {
+        var oldToken = _refreshTokenService.Validate(request.RefreshToken);
+        if (oldToken is null)
+            return Unauthorized(new { message = "Invalid or expired refresh token." });
+
+        var user = _userService.GetById(oldToken.UserId);
+        if (user is null)
+            return Unauthorized(new { message = "User not found." });
+
+        _refreshTokenService.Revoke(request.RefreshToken);
+        var response = _tokenService.GenerateToken(user);
+        return Ok(response);
+    }
+
+    [HttpPost("revoke")]
+    public IActionResult Revoke([FromBody] RefreshTokenRequest request)
+    {
+        _refreshTokenService.Revoke(request.RefreshToken);
+        return Ok(new { message = "Token revoked." });
     }
 }
