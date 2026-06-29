@@ -37,4 +37,16 @@ public class RegisterRequest
 
     [StringLength(20)]
     public string? Gender { get; set; }
+
+    [Range(0, 150)]
+    public int? Age { get; set; }
+
+    [StringLength(100)]
+    public string? Name { get; set; }
+
+    [StringLength(100)]
+    public string? City { get; set; }
+
+    [StringLength(100)]
+    public string? State { get; set; }
 }
