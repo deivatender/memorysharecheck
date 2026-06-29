@@ -1,0 +1,6 @@
+@MemoryShareCheck_HostAddress = http://localhost:5098
+
+GET {{MemoryShareCheck_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
