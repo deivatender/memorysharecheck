@@ -8,13 +8,13 @@ namespace MemoryShareCheck.Controllers;
 [Route("api/[controller]")]
 public class AuthController : ControllerBase
 {
-    private readonly AccountService _userService;
+    private readonly AccountService _accountService;
     private readonly TokenService _tokenService;
     private readonly RefreshTokenService _refreshTokenService;
 
-    public AuthController(AccountService userService, TokenService tokenService, RefreshTokenService refreshTokenService)
+    public AuthController(AccountService accountService, TokenService tokenService, RefreshTokenService refreshTokenService)
     {
-        _userService = userService;
+        _accountService = accountService;
         _tokenService = tokenService;
         _refreshTokenService = refreshTokenService;
     }
@@ -22,7 +22,7 @@ public class AuthController : ControllerBase
     [HttpPost("register")]
     public IActionResult Register([FromBody] RegisterRequest request)
     {
-        var (user, error) = _userService.Register(request.Username, request.Email, request.Password);
+        var (user, error) = _accountService.Register(request.Username, request.Email, request.Password);
         if (user is null)
             return Conflict(new { message = error });
 
@@ -33,7 +33,7 @@ public class AuthController : ControllerBase
     [HttpPost("login")]
     public IActionResult Login([FromBody] LoginRequest request)
     {
-        var user = _userService.Authenticate(request.Username, request.Password);
+        var user = _accountService.Authenticate(request.Username, request.Password);
         if (user is null)
             return Unauthorized(new { message = "Invalid username or password." });
 
@@ -47,7 +47,7 @@ public class AuthController : ControllerBase
         if (oldToken is null)
             return Unauthorized(new { message = "Invalid or expired refresh token." });
 
-        var user = _userService.GetById(oldToken.UserId);
+        var user = _accountService.GetById(oldToken.UserId);
         if (user is null)
             return Unauthorized(new { message = "User not found." });
 
