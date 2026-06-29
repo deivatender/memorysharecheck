@@ -52,4 +52,7 @@ public class RegisterRequest
 
     [StringLength(100)]
     public string? Country { get; set; }
+
+    [Range(0, int.MaxValue)]
+    public int? CountPass { get; set; }
 }
