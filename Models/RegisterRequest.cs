@@ -52,4 +52,6 @@ public class RegisterRequest
 
     [StringLength(100)]
     public string? Country { get; set; }
+
+    public bool? IsLive { get; set; }
 }

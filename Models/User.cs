@@ -18,4 +18,5 @@ public class User
     public string? City { get; set; }
     public string? State { get; set; }
     public string? Country { get; set; }
+    public bool? IsLive { get; set; }
 }
