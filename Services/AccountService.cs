@@ -22,11 +22,12 @@ public class AccountService
         return _users.Values.FirstOrDefault(u => u.Id == id);
     }
 
-    public (User? User, string? Error) Register(string username, string email, string password, string? displayName = null, string? phoneNumber = null, string? bio = null, DateTime? dateOfBirth = null, string? address = null, string? profilePictureUrl = null, string? gender = null, int? age = null, string? name = null, string? city = null, string? state = null, string? country = null)
+    public (User? User, string? Error) Register(string username, int? count, string email, string password, string? displayName = null, string? phoneNumber = null, string? bio = null, DateTime? dateOfBirth = null, string? address = null, string? profilePictureUrl = null, string? gender = null, int? age = null, string? name = null, string? city = null, string? state = null, string? country = null)
     {
         var user = new User
         {
             Username = username,
+            Count = count,
             Email = email,
             PasswordHash = HashPassword(password),
             DisplayName = displayName,

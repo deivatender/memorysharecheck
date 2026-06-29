@@ -8,6 +8,9 @@ public class RegisterRequest
     [StringLength(50, MinimumLength = 3)]
     public string Username { get; set; } = string.Empty;
 
+    [Range(0, int.MaxValue)]
+    public int? Count { get; set; }
+
     [Required]
     [EmailAddress]
     public string Email { get; set; } = string.Empty;
