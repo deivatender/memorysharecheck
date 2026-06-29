@@ -22,7 +22,7 @@ public class AuthController : ControllerBase
     [HttpPost("register")]
     public IActionResult Register([FromBody] RegisterRequest request)
     {
-        var (user, error) = _accountService.Register(request.Username, request.Email, request.Password, request.DisplayName);
+        var (user, error) = _accountService.Register(request.Username, request.Email, request.Password, request.DisplayName, request.PhoneNumber, request.Bio);
         if (user is null)
             return Conflict(new { message = error });
 

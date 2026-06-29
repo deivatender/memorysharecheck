@@ -18,4 +18,11 @@ public class RegisterRequest
 
     [StringLength(100)]
     public string? DisplayName { get; set; }
+
+    [Phone]
+    [StringLength(20)]
+    public string? PhoneNumber { get; set; }
+
+    [StringLength(500)]
+    public string? Bio { get; set; }
 }
