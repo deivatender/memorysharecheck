@@ -38,6 +38,8 @@ builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
+Console.WriteLine("Test");
+
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
